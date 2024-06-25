@@ -10,7 +10,12 @@ def gen_filter_loopbody(lhs, rhs, filtermat, DoF, division):
     loop_body = ""
     tabtab = '\t\t'
     if(division == 1):
-        loop_body = tabtab + ""
+        loop_body = tabtab + "{0}(i,j,k) = {1}(i,1) * {2}(1,j,k) + &\n".format(lhs, rhs, filtermat)
+        for i in range(2,DoF):
+            loop_body = tabtab + "{0}(i,{1}) * {2}({1},j,k) + &\n".format(filtermat, i, rhs)
+        loop_body = tabtab + "{0}(i,{1}) * {2}({1},j,k) + &\n".format(filtermat, DoF, rhs)
+    else:
+        print("loop division dealing")
     
     return loop_body
 
