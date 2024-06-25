@@ -195,7 +195,7 @@ contains
     end do
     end do
     end do
-    !CODEGEN X END
+    !CODEGEN END X
 
     !-- y direction
     !CODEGEN Y
@@ -206,7 +206,7 @@ contains
     end do
     end do
     end do
-    !CODEGEN Y END
+    !CODEGEN END Y
 
     !-- z direction
     !CODEGEN Z
@@ -217,7 +217,7 @@ contains
     end do
     end do
     end do
-    !CODEGEN Z END
+    !CODEGEN END Z
   end subroutine apply_filter_xyz_direction
 
 end module scale_atm_dyn_dgm_modalfilter
