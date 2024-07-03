@@ -177,47 +177,41 @@ contains
   subroutine apply_filter_xyz_direction(filterMat, filterMat_tr, filterMat_vtr, q_in, q_tmp )
     implicit none
 
-    real(RP), intent(in) :: filterMat(12, 12)
-    real(RP), intent(in) :: filterMat_tr(12, 12)
-    real(RP), intent(in) :: filterMat_vtr(12, 12)
-    real(RP), intent(inout) :: q_in(12, 12, 12)
-    real(RP), intent(inout) :: q_tmp(12, 12, 12)
+    real(RP), intent(in) :: filterMat(dof, dof)
+    real(RP), intent(in) :: filterMat_tr(dof, dof)
+    real(RP), intent(in) :: filterMat_vtr(dof, dof)
+    real(RP), intent(inout) :: q_in(dof, dof, dof)
+    real(RP), intent(inout) :: q_tmp(dof, dof, dof)
     
-    real(RP) :: tmp1, tmp2, tmp3
+    !CODEGEN TEMP_VAR
     integer :: i, j, k
 
     !-- x direction
-    !CODEGEN X
-    do k=1, !<DOF>
-    do j=1, !<DOF>
-    do i=1, !<DOF>
-      !CODEGEN LOOP_BODY
+    do k=1, dof
+    do j=1, dof
+    do i=1, dof
+      !LOOPBODY X
     end do
     end do
     end do
-    !CODEGEN END X
 
     !-- y direction
-    !CODEGEN Y
-    do k=1, !<DOF>
-    do j=1, !<DOF>
-    do i=1, !<DOF>
-      !CODEGEN LOOP_BODY
+    do k=1, dof
+    do j=1, dof
+    do i=1, dof
+      !LOOPBODY Y
     end do
     end do
     end do
-    !CODEGEN END Y
 
     !-- z direction
-    !CODEGEN Z
-    do k=1, !<DOF>
-    do j=1, !<DOF>
-    do i=1, !<DOF>
-      !CODEGEN LOOP_BODY
+    do k=1, dof
+    do j=1, dof
+    do i=1, dof
+      !LOOPBODY Z
     end do
     end do
     end do
-    !CODEGEN END Z
   end subroutine apply_filter_xyz_direction
 
 end module scale_atm_dyn_dgm_modalfilter

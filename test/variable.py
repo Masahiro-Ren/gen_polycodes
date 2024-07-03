@@ -1,4 +1,6 @@
-class Varibale:
-    var_name: str
-    def __init__(self, name):
-        pass
+
+line = "asdfasdf_+ "
+
+new_line = line[:-2]
+
+print(new_line)
