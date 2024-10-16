@@ -1,6 +1,7 @@
 import sys
 import argparse
 import math
+import numpy as np
 
 TabTab = "\t\t"
 
@@ -8,6 +9,15 @@ def load_template(path):
     with open(path, mode="r") as f:
         code = f.readlines()
     return code
+
+def divide_sum(S, N):
+    base = S / N
+    remainder = S % N
+
+    parts = np.full(N, base)
+    for i in range(remainder):
+        parts[i] += 1
+    return parts
 
 ## Generating loop body in x direction
 def gen_x_loopbody(template_code, loopbody_line, Np, division):
@@ -18,20 +28,34 @@ def gen_x_loopbody(template_code, loopbody_line, Np, division):
             loop_body += TabTab + "filterMat(i,{0}) * q_in({0},j,k) + &\n".format(j)
         loop_body += TabTab + "filterMat(i,{0}) * q_in({0},j,k)\n".format(Np)
     else:
-        len_per_block = math.ceil(Np / division)
-        np = Np
+        # len_per_block = math.ceil(Np / division)
+        # np = Np
+        # var_idx = 1
+        # idx = 1
+        # while np > 0 :
+        #     muladd_len = min(np, len_per_block)
+        #     loop_body += TabTab + "tmp{0} = ".format(var_idx) 
+        #     for j in range(0, muladd_len):
+        #         loop_body += "filterMat(i,{0}) * q_in({0},j,k) + ".format(idx)
+        #         idx += 1
+        #     loop_body = loop_body[:-2] + "\n" 
+
+        #     np -= len_per_block
+        #     var_idx += 1
+
+        div_nums = divide_sum(Np, division)
+
         var_idx = 1
         idx = 1
-        while np > 0 :
-            muladd_len = min(np, len_per_block)
+
+        for i in range(div_nums.size):
             loop_body += TabTab + "tmp{0} = ".format(var_idx) 
-            for j in range(0, muladd_len):
+            for j in range(div_nums[i]):
                 loop_body += "filterMat(i,{0}) * q_in({0},j,k) + ".format(idx)
                 idx += 1
             loop_body = loop_body[:-2] + "\n" 
-
-            np -= len_per_block
             var_idx += 1
+
         ## q_tmp(i,j,k) = tmp1 + tmp2 + ......
         loop_body += TabTab + "q_tmp(i,j,k) = "
         for tmp_var in range(1, division + 1):
